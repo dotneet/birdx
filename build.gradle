@@ -1,0 +1,41 @@
+repositories {
+    mavenCentral()
+    maven { url "http://dl.bintray.com/cy6ergn0m/maven" }
+}
+
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+//mainClassName = 'net.devneko.birdx.MainKt'
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/kotlin'
+    example.kotlin.srcDirs += "src/main/kotlin"
+    example.kotlin.srcDirs += "src/example/kotlin"
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'org.jetbrains.kotlinx:vertx3-lang-kotlin:0.0.9'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    exampleCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    exampleCompile 'org.jetbrains.kotlinx:vertx3-lang-kotlin:0.0.+'
+}
+
+task runExample(dependsOn: [classes], type: JavaExec) {
+    main = 'net.devneko.birdx.MainKt'
+    //classpath = sourceSets.main.runtimeClaskspath
+    classpath = sourceSets.example.runtimeClasspath
+}
+
